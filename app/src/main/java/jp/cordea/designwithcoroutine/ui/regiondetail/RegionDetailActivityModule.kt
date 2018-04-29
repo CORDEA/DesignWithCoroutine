@@ -12,6 +12,7 @@ interface RegionDetailActivityModule {
     @ContributesAndroidInjector(modules = [
         RegionDetailViewModelModule::class,
         RegionDetailAdapterModule::class,
+        RegionDetailFragmentModule::class,
         RegionDetailActivityBindsModule::class
     ])
     fun contributeRegionDetailActivity(): RegionDetailActivity
