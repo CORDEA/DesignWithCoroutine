@@ -11,7 +11,11 @@ import android.view.ViewGroup
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import dagger.android.support.AndroidSupportInjection
+import jp.cordea.designwithcoroutine.ChannelObserver
 import jp.cordea.designwithcoroutine.databinding.FragmentRegionBinding
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -28,6 +32,9 @@ class RegionFragment : Fragment() {
 
     @Inject
     lateinit var item: Provider<RegionItem>
+
+    @Inject
+    lateinit var channelObserver: ChannelObserver
 
     private val adapter by lazy {
         GroupAdapter<ViewHolder>()
@@ -59,6 +66,7 @@ class RegionFragment : Fragment() {
     ): View? {
         val binding = FragmentRegionBinding.inflate(inflater, container, false)
         binding.recyclerView.adapter = adapter
+        viewModel.registerItemClick(adapter.bindItemClick(channelObserver.job))
         return binding.root
     }
 
@@ -66,5 +74,21 @@ class RegionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.fetchRegion()
+    }
+
+    private fun GroupAdapter<ViewHolder>.bindItemClick(
+            job: Job
+    ): ReceiveChannel<Int> {
+        val channel = Channel<Int>()
+        setOnItemClickListener { item, _ ->
+            if (!channel.isClosedForSend) {
+                channel.offer(getAdapterPosition(item))
+            }
+        }
+        job.invokeOnCompletion {
+            setOnItemClickListener(null)
+            channel.close()
+        }
+        return channel
     }
 }

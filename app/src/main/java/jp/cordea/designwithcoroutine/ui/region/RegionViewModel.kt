@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModel
 import jp.cordea.designwithcoroutine.api.response.Region
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.experimental.channels.consumeEach
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
@@ -13,6 +15,9 @@ class RegionViewModel : ViewModel() {
 
     @Inject
     lateinit var repository: RegionRepository
+
+    @Inject
+    lateinit var navigator: RegionNavigator
 
     private val job = Job()
     private val mutableRegions = MutableLiveData<List<Region>>()
@@ -25,6 +30,12 @@ class RegionViewModel : ViewModel() {
                     mutableRegions.value = it
                 }
             }
+        }
+    }
+
+    fun registerItemClick(channel: ReceiveChannel<Int>) = launch(UI) {
+        channel.consumeEach {
+            navigator.navigateToDetail(it)
         }
     }
 

@@ -1,16 +1,27 @@
 package jp.cordea.designwithcoroutine.ui.region
 
+import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ViewModelStoreOwner
 import android.support.v4.app.Fragment
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 
 @Module
-interface RegionFragmentBindsModule {
+abstract class RegionFragmentBindsModule {
 
     @Binds
-    fun bindFragment(fragment: RegionFragment): Fragment
+    abstract fun bindFragment(fragment: RegionFragment): Fragment
 
     @Binds
-    fun bindViewModelStoreOwner(fragment: RegionFragment): ViewModelStoreOwner
+    abstract fun bindViewModelStoreOwner(fragment: RegionFragment): ViewModelStoreOwner
+
+    @Module
+    companion object {
+
+        @Provides
+        @JvmStatic
+        fun provideLifecycle(fragment: RegionFragment): Lifecycle =
+                fragment.lifecycle
+    }
 }
