@@ -11,9 +11,7 @@ import jp.cordea.designwithcoroutine.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-@Module(includes = [
-    ViewModelModule::class
-])
+@Module
 class AppModule {
 
     @Provides

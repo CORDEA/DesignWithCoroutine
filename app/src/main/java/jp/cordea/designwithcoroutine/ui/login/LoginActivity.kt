@@ -20,5 +20,7 @@ class LoginActivity : AppCompatActivity() {
         val binding = DataBindingUtil.setContentView<ActivityLoginBinding>(this, R.layout.activity_login)
         binding.vm = viewModel
         setSupportActionBar(toolbar)
+
+        viewModel.start()
     }
 }

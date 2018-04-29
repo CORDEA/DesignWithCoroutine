@@ -1,20 +1,17 @@
 package jp.cordea.designwithcoroutine.ui.login
 
+import android.arch.lifecycle.ViewModel
 import android.view.View
 import jp.cordea.designwithcoroutine.KeyManager
-import jp.cordea.designwithcoroutine.di.ActivityScope
 import javax.inject.Inject
 
-@ActivityScope
-class LoginViewModel @Inject constructor(
-        private val keyManager: KeyManager,
-        private val navigator: LoginNavigator
-) {
-    init {
-        if (keyManager.get() != null) {
-            navigator.navigateToMain()
-        }
-    }
+class LoginViewModel : ViewModel() {
+
+    @Inject
+    lateinit var keyManager: KeyManager
+
+    @Inject
+    lateinit var navigator: LoginNavigator
 
     var apiKey: String = ""
 
@@ -24,5 +21,11 @@ class LoginViewModel @Inject constructor(
         }
         keyManager.set(apiKey)
         navigator.navigateToMain()
+    }
+
+    fun start() {
+        if (keyManager.get() != null) {
+            navigator.navigateToMain()
+        }
     }
 }

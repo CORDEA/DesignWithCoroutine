@@ -1,12 +1,30 @@
 package jp.cordea.designwithcoroutine.di
 
-import android.arch.lifecycle.ViewModelProvider
-import dagger.Binds
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.ViewModelStoreOwner
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import dagger.Module
+import dagger.Provides
+import kotlin.reflect.KClass
 
 @Module
-interface ViewModelModule {
+abstract class ViewModelModule<T : ViewModel>(
+        private val kClass: KClass<T>
+) {
 
-    @Binds
-    fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+    @Provides
+    fun provideViewModel(
+            owner: ViewModelStoreOwner,
+            factory: ViewModelFactory<T>
+    ): T {
+        if (owner is Fragment) {
+            return ViewModelProviders.of(owner, factory).get(kClass.java)
+        }
+        if (owner is FragmentActivity) {
+            return ViewModelProviders.of(owner, factory).get(kClass.java)
+        }
+        throw IllegalArgumentException()
+    }
 }

@@ -4,16 +4,15 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import jp.cordea.designwithcoroutine.api.response.Region
-import jp.cordea.designwithcoroutine.di.ActivityScope
 import jp.cordea.designwithcoroutine.ui.region.RegionRepository
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
-@ActivityScope
-class RegionDetailViewModel @Inject constructor(
-        private val repository: RegionRepository
-) : ViewModel() {
+class RegionDetailViewModel : ViewModel() {
+
+    @Inject
+    lateinit var repository: RegionRepository
 
     private val job = Job()
     private val mutableRegions = MutableLiveData<List<Region>>()
