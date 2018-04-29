@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel
 import jp.cordea.designwithcoroutine.api.response.Region
 import jp.cordea.designwithcoroutine.ui.region.RegionRepository
 import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
@@ -21,7 +22,9 @@ class RegionDetailViewModel : ViewModel() {
     fun fetchRegion() = launch(parent = job) {
         repository.fetchRegion(false).let {
             if (it.isNotEmpty()) {
-                mutableRegions.value = it
+                launch(UI) {
+                    mutableRegions.value = it
+                }
             }
         }
     }
