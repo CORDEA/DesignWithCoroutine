@@ -12,7 +12,6 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import dagger.android.support.AndroidSupportInjection
 import jp.cordea.designwithcoroutine.databinding.FragmentRegionBinding
-import jp.cordea.designwithcoroutine.observe
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -42,7 +41,7 @@ class RegionFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.regions()
+        viewModel.regions
                 .observe(this, Observer {
                     it?.let {
                         adapter.clear()
@@ -66,6 +65,6 @@ class RegionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetchRegion().observe(this)
+        viewModel.fetchRegion()
     }
 }

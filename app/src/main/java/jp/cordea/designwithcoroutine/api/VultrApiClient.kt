@@ -1,6 +1,5 @@
 package jp.cordea.designwithcoroutine.api
 
-import io.reactivex.Maybe
 import jp.cordea.designwithcoroutine.BuildConfig
 import jp.cordea.designwithcoroutine.KeyManager
 import jp.cordea.designwithcoroutine.api.response.Region
@@ -14,11 +13,11 @@ import javax.inject.Singleton
 class VultrApiClient @Inject constructor(
         private val manager: KeyManager,
         private val retrofitBuilder: Retrofit.Builder
-) : VultrApi {
+) {
 
-    private val service: Maybe<VultrApi>
+    private val service: VultrApi?
         get() {
-            val key = manager.get() ?: return Maybe.empty()
+            val key = manager.get() ?: return null
             var builder = OkHttpClient.Builder()
                     .addInterceptor {
                         it.proceed(it.request()
@@ -35,12 +34,12 @@ class VultrApiClient @Inject constructor(
                         )
             }
 
-            return Maybe.just(retrofitBuilder
+            return retrofitBuilder
                     .client(builder.build())
                     .build()
-                    .create(VultrApi::class.java))
+                    .create(VultrApi::class.java)
         }
 
-    override fun getRegions(): Maybe<Map<String, Region>> =
-            service.flatMap { it.getRegions() }
+    suspend fun getRegions(): Map<String, Region> =
+            service?.getRegions()?.await() ?: emptyMap()
 }
