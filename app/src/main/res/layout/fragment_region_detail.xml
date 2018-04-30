@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="jp.cordea.designwithcoroutine.ui.regiondetail.RegionDetailFragmentViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="36dp">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardUseCompatPadding="true">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="24dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="24dp">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{vm.title}"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="New Jersey" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@{vm.description}"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title"
+                    tools:text="US" />
+
+                <ImageView
+                    android:id="@+id/continent_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:src="@drawable/ic_map_black_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description" />
+
+                <TextView
+                    android:id="@+id/continent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:text="@{vm.continent}"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/continent_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/continent_icon"
+                    app:layout_constraintTop_toTopOf="@id/continent_icon"
+                    tools:text="North America" />
+
+                <ImageView
+                    android:id="@+id/ddos_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_security_black_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/continent_icon" />
+
+                <TextView
+                    android:id="@+id/ddos"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:text="@{vm.ddosProtection ? @string/text_enable : @string/text_disable}"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/ddos_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/continent_icon"
+                    app:layout_constraintTop_toTopOf="@id/ddos_icon" />
+
+                <ImageView
+                    android:id="@+id/block_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_storage_black_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ddos_icon" />
+
+                <TextView
+                    android:id="@+id/block"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:text="@{vm.blockStorage ? @string/text_enable : @string/text_disable}"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/block_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/continent_icon"
+                    app:layout_constraintTop_toTopOf="@id/block_icon" />
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+    </FrameLayout>
+</layout>
