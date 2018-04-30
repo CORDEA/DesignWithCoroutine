@@ -45,9 +45,11 @@ class RegionDetailActivity : AppCompatActivity(), HasSupportFragmentInjector {
         )
         setSupportActionBar(binding.toolbar)
 
+        val position = intent.getIntExtra(POSITION_KEY, 0)
         viewModel.regions.observe(this, Observer {
             it?.let {
                 adapter.items = it
+                binding.content!!.viewPager.currentItem = position
             }
         })
 
