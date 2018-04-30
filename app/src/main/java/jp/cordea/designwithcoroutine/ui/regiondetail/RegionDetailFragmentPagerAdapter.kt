@@ -12,7 +12,11 @@ class RegionDetailFragmentPagerAdapter @Inject constructor(
         fragmentManager: FragmentManager
 ) : FragmentPagerAdapter(fragmentManager) {
 
-    private var items: List<Region> = emptyList()
+    var items: List<Region> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun getItem(position: Int): Fragment =
             RegionDetailFragment.newInstance(items[position])
