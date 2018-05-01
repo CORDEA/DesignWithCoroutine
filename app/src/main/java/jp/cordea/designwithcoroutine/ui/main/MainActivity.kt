@@ -14,6 +14,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import jp.cordea.designwithcoroutine.R
+import jp.cordea.designwithcoroutine.ui.app.AppFragment
 import jp.cordea.designwithcoroutine.ui.region.RegionFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -76,13 +77,12 @@ class MainActivity : AppCompatActivity(),
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
+        val transaction = supportFragmentManager.beginTransaction()
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
-
-            }
+            R.id.nav_camera ->
+                transaction.replace(R.id.container, RegionFragment.newInstance())
+            R.id.nav_gallery ->
+                transaction.replace(R.id.container, AppFragment.newInstance())
             R.id.nav_slideshow -> {
 
             }
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity(),
 
             }
         }
-
+        transaction.commit()
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
