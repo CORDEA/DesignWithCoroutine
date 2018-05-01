@@ -12,5 +12,5 @@ data class Application(
         val name: String,
         @Json(name = "short_name") val shortName: String,
         @Json(name = "deploy_name") val deployName: String,
-        val surcharge: Int
+        val surcharge: Float
 ) : Parcelable
