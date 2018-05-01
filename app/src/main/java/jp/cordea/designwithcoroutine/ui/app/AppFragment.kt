@@ -8,9 +8,12 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 import dagger.android.support.AndroidSupportInjection
 import jp.cordea.designwithcoroutine.databinding.FragmentAppBinding
 import javax.inject.Inject
+import javax.inject.Provider
 
 class AppFragment : Fragment() {
 
@@ -23,6 +26,13 @@ class AppFragment : Fragment() {
     @Inject
     lateinit var viewModel: AppViewModel
 
+    @Inject
+    lateinit var item: Provider<AppItem>
+
+    private val adapter by lazy {
+        GroupAdapter<ViewHolder>()
+    }
+
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
@@ -34,6 +44,14 @@ class AppFragment : Fragment() {
         viewModel.apps
                 .observe(this, Observer {
                     it?.let {
+                        adapter.clear()
+                        adapter.addAll(
+                                it.map {
+                                    item.get().apply {
+                                        viewModel = AppItemViewModel.from(it)
+                                    }
+                                }
+                        )
                     }
                 })
     }
@@ -44,6 +62,7 @@ class AppFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         val binding = FragmentAppBinding.inflate(inflater, container, false)
+        binding.recyclerView.adapter = adapter
         return binding.root
     }
 
