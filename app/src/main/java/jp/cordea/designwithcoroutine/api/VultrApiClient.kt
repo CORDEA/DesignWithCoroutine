@@ -2,6 +2,7 @@ package jp.cordea.designwithcoroutine.api
 
 import jp.cordea.designwithcoroutine.BuildConfig
 import jp.cordea.designwithcoroutine.KeyManager
+import jp.cordea.designwithcoroutine.api.response.Application
 import jp.cordea.designwithcoroutine.api.response.Region
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -42,4 +43,7 @@ class VultrApiClient @Inject constructor(
 
     suspend fun getRegions(): Map<String, Region> =
             service?.getRegions()?.await() ?: emptyMap()
+
+    suspend fun getApps(): Map<String, Application> =
+            service?.getApps()?.await() ?: emptyMap()
 }
