@@ -7,7 +7,6 @@ import jp.cordea.designwithcoroutine.api.response.Region
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
-import kotlinx.coroutines.experimental.channels.consumeEach
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
@@ -34,9 +33,7 @@ class RegionViewModel : ViewModel() {
     }
 
     fun registerItemClick(channel: ReceiveChannel<Int>) = launch(UI) {
-        channel.consumeEach {
-            navigator.navigateToDetail(it)
-        }
+        navigator.navigateToDetail(channel.receive())
     }
 
     override fun onCleared() {
